@@ -1,0 +1,20 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: unlikedout-mysql
+    restart: unless-stopped
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: unlikedout
+      MYSQL_USER: unlikedout
+      MYSQL_PASSWORD: unlikedout
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - unlikedout_data:/var/lib/mysql
+
+volumes:
+  unlikedout_data:
