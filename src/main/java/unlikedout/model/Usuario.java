@@ -5,7 +5,6 @@ public class Usuario {
     private String id, username, tag, senha;
     private int seguidores, posts, seguindo;
 
-
     public Usuario(){}
 
     public Usuario(String username, String tag, String senha){
