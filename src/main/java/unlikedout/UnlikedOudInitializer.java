@@ -1,21 +1,29 @@
 package unlikedout;
 
 import unlikedout.config.ConnectionConfig;
+import unlikedout.dto.UsuarioRequestDTO;
+import unlikedout.repository.UsuarioRepository;
+import unlikedout.service.UsuarioService;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class UnlikedOudInitializer {
 
     private Connection connection;
+    private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
 
     public UnlikedOudInitializer(){
-
+        conectarBanco();
+        this.usuarioRepository = new UsuarioRepository(connection);
+        this.usuarioService = new UsuarioService(usuarioRepository);
     }
 
     public void iniciar(){
-        conectarBanco();
+
     }
 
     private void conectarBanco(){

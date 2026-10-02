@@ -36,9 +36,9 @@ public class UsuarioRepository {
     }
 
     // Pseudo GET
-    public List<Usuario> findAll() throws SQLException{
+    public List<UsuarioResponseDTO> findAll() throws SQLException{
 
-        List<Usuario> usuariosEncontrados = new ArrayList<>();
+        List<UsuarioResponseDTO> usuariosEncontrados = new ArrayList<>();
 
         String sql = """
                 SELECT * FROM usuarios;
@@ -52,16 +52,13 @@ public class UsuarioRepository {
                 while(result.next()){
 
                     usuariosEncontrados.add(
-                            // Primeiro converte para depois adicionar à lista
-                            // assim senha e id nao vao para o objeto
-                            UsuarioResponseDTO.convertResponse(new UsuarioResponseDTO(
-                            result.getString("username"),
-                            result.getString("tag"),
-                            result.getInt("seguidores"),
-                            result.getInt("posts"),
-                            result.getInt("seguindo")
-
-                            )));
+                                new UsuarioResponseDTO(
+                                result.getString("username"),
+                                result.getString("tag"),
+                                result.getInt("seguidores"),
+                                result.getInt("posts"),
+                                result.getInt("seguindo")
+                            ));
 
                 }
                 return usuariosEncontrados;
