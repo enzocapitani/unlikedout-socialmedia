@@ -23,7 +23,6 @@ public class UnlikedOudInitializer {
     }
 
     public void iniciar(){
-
     }
 
     private void conectarBanco(){
