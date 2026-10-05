@@ -67,6 +67,19 @@ public class UsuarioRepository {
 
     }
 
+    public void deletarUsuario(String tag) throws SQLException {
+        String sql = """
+                DELETE FROM usuarios
+                WHERE tag = ?;
+                """;
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setString(1, tag);
+            statement.executeUpdate();
+            System.out.println("Usuario deletado com sucesso!");
+        }
+    }
+
     public UsuarioResponseDTO encontrarUsuario(String tag) throws SQLException{
         String sql = """
                 SELECT * FROM usuarios
