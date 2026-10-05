@@ -67,4 +67,29 @@ public class UsuarioRepository {
 
     }
 
+    public UsuarioResponseDTO encontrarUsuario(String tag) throws SQLException{
+        String sql = """
+                SELECT * FROM usuarios
+                WHERE tag = ?;
+                """;
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setString(1, tag);
+
+            try(ResultSet result = statement.executeQuery()){
+                result.next();
+                return new UsuarioResponseDTO(
+                        result.getString("username"),
+                        result.getString("tag"),
+                        result.getInt("seguidores"),
+                        result.getInt("posts"),
+                        result.getInt("seguindo")
+                );
+
+            }
+
+        }
+
+    }
+
 }

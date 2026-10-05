@@ -32,4 +32,14 @@ public class UsuarioService {
 
     }
 
+
+    public void deletarUsuario(UsuarioRequestDTO usuarioRequestDTO){
+        if(UsuarioRequestDTO.temCampoVazio(usuarioRequestDTO)){
+            throw new RuntimeException("Erro ao adicionar usuário! Campo Vazio");
+        }
+
+        Usuario encontrado = UsuarioRequestDTO.converterUsuario(usuarioRequestDTO);
+
+    }
+
 }
