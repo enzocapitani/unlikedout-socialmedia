@@ -3,6 +3,8 @@ package unlikedout.controller;
 import unlikedout.dto.UsuarioRequestDTO;
 import unlikedout.service.UsuarioService;
 
+import java.sql.SQLException;
+
 public class UsuarioController {
     private final UsuarioService usuarioService;
 
@@ -14,8 +16,12 @@ public class UsuarioController {
         usuarioService.cadastrarUsuario(usuarioRequestDTO);
     }
 
-    public void deletarUsuario(UsuarioRequestDTO usuarioRequestDTO){
-        usuarioService.deletarUsuario(usuarioRequestDTO);
+    public void deletarUsuario(String tag, String senha){
+        try {
+            usuarioService.deletarUsuario(tag, senha);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
