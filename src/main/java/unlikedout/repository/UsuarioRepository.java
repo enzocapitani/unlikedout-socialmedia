@@ -1,6 +1,7 @@
 package unlikedout.repository;
 
 import unlikedout.dto.UsuarioResponseDTO;
+import unlikedout.dto.UsuarioSensitiveDTO;
 import unlikedout.model.Usuario;
 
 import java.sql.Connection;
@@ -75,14 +76,20 @@ public class UsuarioRepository {
 
         try(PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1, tag);
-            statement.executeUpdate();
-            System.out.println("Usuario deletado com sucesso!");
+            int linhasAfetadas = statement.executeUpdate();
+
+            if(linhasAfetadas > 0){
+                System.out.println("Usuario deletado com sucesso!");
+            } else {
+                System.out.println("Usuário nao encontrado");
+            }
+
         }
     }
 
     public UsuarioResponseDTO encontrarUsuario(String tag) throws SQLException{
         String sql = """
-                SELECT * FROM usuarios
+                SELECT username, tag, seguidores, posts, seguindo FROM usuarios
                 WHERE tag = ?;
                 """;
 
@@ -101,6 +108,28 @@ public class UsuarioRepository {
 
             }
 
+        }
+
+    }
+
+    // Senha vem criptografada do banco
+    public UsuarioSensitiveDTO encontrarDadosSensiveis(String tag) throws SQLException{
+        String sql = """
+                SELECT senha FROM usuarios
+                WHERE tag = ?;
+                """;
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, tag);
+
+            ResultSet result = statement.executeQuery();
+
+            if(result.next()){
+                return new UsuarioSensitiveDTO(tag, result.getString("senha"));
+            } else {
+                return null;
+            }
         }
 
     }

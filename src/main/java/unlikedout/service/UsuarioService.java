@@ -1,6 +1,7 @@
 package unlikedout.service;
 
 import unlikedout.dto.UsuarioRequestDTO;
+import unlikedout.dto.UsuarioSensitiveDTO;
 import unlikedout.model.Usuario;
 import unlikedout.repository.UsuarioRepository;
 
@@ -33,12 +34,17 @@ public class UsuarioService {
     }
 
 
-    public void deletarUsuario(UsuarioRequestDTO usuarioRequestDTO){
-        if(UsuarioRequestDTO.temCampoVazio(usuarioRequestDTO)){
-            throw new RuntimeException("Erro ao adicionar usuário! Campo Vazio");
-        }
+    public void deletarUsuario(String tag, String senha) throws SQLException{
 
-        Usuario encontrado = UsuarioRequestDTO.converterUsuario(usuarioRequestDTO);
+        UsuarioSensitiveDTO sensiveis = usuarioRepository.encontrarDadosSensiveis(tag);
+
+        System.out.println(senha+" "+" "+ sensiveis.senha());
+
+        if(BCrypt.checkpw(senha, sensiveis.senha())){
+            usuarioRepository.deletarUsuario(tag);
+        } else {
+            System.out.println("Erro ao deletar usuario, credenciais inválidas");
+        }
 
     }
 
