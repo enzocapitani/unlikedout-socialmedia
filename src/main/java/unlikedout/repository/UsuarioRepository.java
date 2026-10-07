@@ -1,5 +1,6 @@
 package unlikedout.repository;
 
+import unlikedout.dto.UsuarioRequestDTO;
 import unlikedout.dto.UsuarioResponseDTO;
 import unlikedout.dto.UsuarioSensitiveDTO;
 import unlikedout.model.Usuario;
@@ -134,27 +135,66 @@ public class UsuarioRepository {
 
     }
 
-    public void alterarCredenciais(Usuario request, String tag) throws SQLException{
+    public void alterarUsername(String tag, String usernameNovo)throws SQLException{
+
         String sql = """
                 UPDATE usuarios
-                SET username = ?, tag = ?, senha = ?
-                WHERE tag = ?; 
+                SET username = ?
+                WHERE tag = ?;
                 """;
 
-        try(PreparedStatement statement = connection.prepareStatement(sql)){
-            statement.setString(1, request.getUsername());
-            statement.setString(2, request.getTag());
-            statement.setString(3, request.getSenha());
-            statement.setString(1, tag);
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, usernameNovo);
+            statement.setString(2, tag);
+
 
             if(statement.executeUpdate() > 0){
-                System.out.println("Usuario Alterado com sucesso¹");
-            } else{
+                System.out.println("Username alterado com sucesso!");
+            }else{
                 System.out.println("Usuario não encontrado");
             }
-
         }
 
+    }
+
+    public void alterarTag(String tagAntiga, String tagNova) throws SQLException{
+        String sql = """
+                UPDATE usuarios
+                SET tag = ?
+                WHERE tag = ?;
+                """;
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, tagNova);
+            statement.setString(2, tagAntiga);
+
+
+            if(statement.executeUpdate() > 0){
+                System.out.println("Username alterado com sucesso!");
+            }else{
+                System.out.println("Usuario não encontrado");
+            }
+        }
+    }
+
+    public void alterarSenha(String tag, String senhaNova) throws SQLException{
+        String sql = """
+                UPDATE usuarios
+                SET senha = ?
+                WHERE tag = ?;
+                """;
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, senhaNova);
+            statement.setString(2, tag);
+
+
+            if(statement.executeUpdate() > 0){
+                System.out.println("Username alterado com sucesso!");
+            }else{
+                System.out.println("Usuario não encontrado");
+            }
+        }
     }
 
 }

@@ -48,16 +48,4 @@ public class UsuarioService {
 
     }
 
-    public void alterarUsuario(Usuario request, String senha, String tag) throws SQLException{
-
-        UsuarioSensitiveDTO sensiveis = usuarioRepository.encontrarDadosSensiveis(request.getTag());
-
-        request.setSenha(BCrypt.hashpw(request.getSenha(), BCrypt.gensalt()));
-
-        if(BCrypt.checkpw(senha, sensiveis.senha())){
-            usuarioRepository.alterarCredenciais(request, tag);
-        }
-
-    }
-
 }
