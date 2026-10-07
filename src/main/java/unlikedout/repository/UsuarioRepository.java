@@ -134,4 +134,27 @@ public class UsuarioRepository {
 
     }
 
+    public void alterarCredenciais(Usuario request, String tag) throws SQLException{
+        String sql = """
+                UPDATE usuarios
+                SET username = ?, tag = ?, senha = ?
+                WHERE tag = ?; 
+                """;
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setString(1, request.getUsername());
+            statement.setString(2, request.getTag());
+            statement.setString(3, request.getSenha());
+            statement.setString(1, tag);
+
+            if(statement.executeUpdate() > 0){
+                System.out.println("Usuario Alterado com sucesso¹");
+            } else{
+                System.out.println("Usuario não encontrado");
+            }
+
+        }
+
+    }
+
 }

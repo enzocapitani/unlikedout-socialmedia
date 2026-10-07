@@ -23,7 +23,7 @@ public class UsuarioService {
         }
 
         Usuario usuarioNovo = UsuarioRequestDTO.converterUsuario(usuarioRequest);
-        usuarioNovo.setSenha(BCrypt.hashpw(usuarioNovo.getSenha(), BCrypt.gensalt(12)));
+        usuarioNovo.setSenha(BCrypt.hashpw(usuarioNovo.getSenha(), BCrypt.gensalt()));
 
         try {
             usuarioRepository.salvar(usuarioNovo);
@@ -44,6 +44,18 @@ public class UsuarioService {
             usuarioRepository.deletarUsuario(tag);
         } else {
             System.out.println("Erro ao deletar usuario, credenciais inválidas");
+        }
+
+    }
+
+    public void alterarUsuario(Usuario request, String senha, String tag) throws SQLException{
+
+        UsuarioSensitiveDTO sensiveis = usuarioRepository.encontrarDadosSensiveis(request.getTag());
+
+        request.setSenha(BCrypt.hashpw(request.getSenha(), BCrypt.gensalt()));
+
+        if(BCrypt.checkpw(senha, sensiveis.senha())){
+            usuarioRepository.alterarCredenciais(request, tag);
         }
 
     }
